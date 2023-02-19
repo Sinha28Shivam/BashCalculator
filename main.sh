@@ -4,6 +4,7 @@
 source calculate.sh
 source functions.sh
 source scientific.sh
+#source bodmas.sh
 
 # loop over all files in the directory and process them continuously
 while true; 
