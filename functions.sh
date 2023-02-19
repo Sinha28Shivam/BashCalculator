@@ -1,5 +1,4 @@
 
-
 Normal_Calculation() {
     operator_options=(1 "Addition"
                       2 "Subtraction"
@@ -7,7 +6,8 @@ Normal_Calculation() {
                       4 "Division"
                       5 "Modulo(%)"
                       6 "power"
-                      7 "Square root")
+                      7 "Square root"
+                      8 "Bodmas")
 
     operator=$(dialog --title "Normal Calculation" --menu "Please select an operator:" 15 50 6 "${operator_options[@]}" 2>&1 >/dev/tty)
     
@@ -27,7 +27,8 @@ Normal_Calculation() {
       return 1
       fi
     	
-    else
+    elif (( $operator == 7 ));
+    then
     #check if the input is number or not
         num3=$(dialog --title "Normal Calculation" --inputbox "Enter the number:" 10 30 2>&1 >/dev/tty)
         if ! number "$num3";
@@ -35,6 +36,15 @@ Normal_Calculation() {
       dialog --title "Error"  --msgbox "Invlid input: $num3 is not a number" 10 30
       return 1
       fi
+      elif (( $operator == 8));
+      then
+        expression=$(dialog --title "Normal Calculation" --inputbox "Enter an expression using BODMAS:" 10 50 2>&1 >/dev/tty)
+
+        # perform the BODMAS calculation using printf and bc commands
+        result=$(printf "%.3f\n" $(echo "$expression" | bc -l))
+    else
+        dialog --title "Error" --msgbox "Invalid operator" 20 50
+        exit 1
         
     fi
 
@@ -61,7 +71,10 @@ Normal_Calculation() {
        ;; 
       7)
        result=$(echo "scale=4; sqrt($num3)" | bc)
-       ;; 
+       ;;
+      8)
+      
+      ;; 
        
       *)
         dialog --title "Error" --msgbox "Invalid operator" 20 50

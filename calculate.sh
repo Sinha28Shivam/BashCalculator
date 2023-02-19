@@ -1,28 +1,56 @@
-calculate() {
-  result=$(echo "$*" | bc -l)
+#source functions.sh
+#source scientific.sh
+
+#calculate() {
+  #result=$(echo "$*" | bc -l)
 
   # timestamp
   #ts=$(date +"%Y-%m-%d %H:%M:%S")
-  echo "$*" = "$result" >> calculations.txt
+ # echo "$*" = "$result" >> calculations.txt
   # display result in a dialog box
+#  dialog --title "Calculation Result" --msgbox "Result: $result" 8 40
+#}
+
+# function to display the recent calculations
+#recent() {
+#result=""
+
+#if [ -f calculations.txt ];
+  #then
+ # while read -r line;
+ # do
+ #   result+="\n$line"
+ # done < calculations.txt
+#fi
+
+# display recent calculations in a dialog box
+ # dialog --title "Recent Calculations" --msgbox "$result" 20 80
+  
+
+#}
+
+
+#!/bin/bash
+
+# source both functions.sh and scientific.sh
+source functions.sh
+source scientific.sh
+
+# function to perform a calculation and store the result in calculations.txt
+calculate() {
+  result=$(echo "$*" | bc -l)
+  echo "$*" = "$result" >> calculations.txt
   dialog --title "Calculation Result" --msgbox "Result: $result" 8 40
 }
 
-# function to display the recent calculations
+# function to display the recent calculations from calculations.txt
 recent() {
-result=""
-
-if [ -f calculations.txt ];
-  then
-  while read -r line;
-  do
-    result+="\n$line"
-  done < calculations.txt
-fi
-
-# display recent calculations in a dialog box
+  result=""
+  if [ -f calculations.txt ]; then
+    while read -r line; do
+      result+="\n$line"
+    done < calculations.txt
+  fi
   dialog --title "Recent Calculations" --msgbox "$result" 20 80
-  
-
 }
 
